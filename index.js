@@ -14,10 +14,10 @@ app.get("/", (req, res) => {
 
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'useroot',
-    password: 'azerty',
-    database: 'inviter_db'
+    host: 'mysql-sounguejeanclaude.alwaysdata.net',
+    user: '373300_root',
+    password: 'root@root',
+    database: 'sounguejeanclaude_inviter_db'
 });
 
 //Connect to MySQL
