@@ -15,9 +15,9 @@ app.get("/", (req, res) => {
 
 const connection = mysql.createConnection({
     host: 'localhost',
-    user: 'jeanclaude',
-    password: 'qwerty',
-    database: 'INVITER_DB'
+    user: 'useroot',
+    password: 'azerty',
+    database: 'inviter_db'
 });
 
 //Connect to MySQL
@@ -31,7 +31,7 @@ connection.connect((err) => {
 
 
 //recuperation les information de la base de  donnee
-const sql = "SELECT * FROM participants"
+const sql = "SELECT * FROM participant"
 
 app.route("/participants"). get((req, res) =>{
     connection.query(sql, (err, results) =>{
@@ -47,10 +47,10 @@ app.route("/participants"). get((req, res) =>{
 
 //recuperation les informations d'un participant a parti d'ID
 
-const mySql = "SELECT * FROM participants WHERE id_part=?";
+const mySql = "SELECT * FROM participant WHERE id=?";
 
-app.route("/participants/:id_part").get((req, res) => {
-    const idParticipants = req.params.id_part; // Utilisez 'id_part' pour récupérer l'ID depuis les paramètres de la requête
+app.route("/participants/:id").get((req, res) => {
+    const idParticipants = req.params.id; // Utilisez 'id_part' pour récupérer l'ID depuis les paramètres de la requête
 
     connection.query(mySql, [idParticipants], (err, results) => {
         if (err) {
@@ -81,7 +81,7 @@ app.post('/participants', (req, res) =>{
     }
 
     //Requete SQL pour inserer un nouveau participant
-    const sq = 'INSERT INTO participants (nom, prenom, numero, adress) VALUE(?, ?, ?, ?)';
+    const sq = 'INSERT INTO participant (nom, prenom, numero, adress) VALUE(?, ?, ?, ?)';
     connection.query(sq, [nom, prenom, numero, adress], (err, results) =>{
         if (err){
             console.error('Erreur lors de l\'insertion du participant:' + err.stack);
@@ -93,11 +93,11 @@ app.post('/participants', (req, res) =>{
 
 
 // Route pour supprimer un participant
-app.delete('/participants/:id_part', (req, res) => {
+app.delete('/participants/:id', (req, res) => {
     const idParticipants = req.params.id_part; // Récupère l'ID depuis les paramètres de la requête
 
     // Requête SQL pour supprimer un participant
-    const del = 'DELETE FROM participants WHERE id_part = ?';
+    const del = 'DELETE FROM participant WHERE id = ?';
     connection.query(del, [idParticipants], (err, results) => {
         if (err) {
             console.error('Erreur lors de la suppression du participant: ' + err.stack);
