@@ -67,8 +67,15 @@ app.route("/participants/:id").get((req, res) => {
     });
 });
 
-//Middleware pour traiter les donnees JSON
-app.use(bodyParser.json()); //Pour traiter les donnees JSON
+app.use((req, res, next) => {
+    req.rawBody = '';
+    req.on('data', chunk => req.rawBody += chunk);
+    req.on('end', () => {
+      console.log('Raw Body:', req.rawBody); // Log the raw JSON data
+      next();
+    });
+  });
+  
 
 
 //ajouter des participants sur la base de donne
@@ -94,7 +101,7 @@ app.post('/participants', (req, res) =>{
 
 // Route pour supprimer un participant
 app.delete('/participants/:id', (req, res) => {
-    const idParticipants = req.params.id_part; // Récupère l'ID depuis les paramètres de la requête
+    const idParticipants = req.params.id; // Récupère l'ID depuis les paramètres de la requête
 
     // Requête SQL pour supprimer un participant
     const del = 'DELETE FROM participant WHERE id = ?';
